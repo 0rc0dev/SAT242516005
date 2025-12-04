@@ -1,0 +1,68 @@
+﻿@page "/hasta-duzenle/{id:int}"
+
+<h3>Hasta Düzenle</h3>
+
+@if (hasta == null)
+{
+    <p>Yükleniyor...</p>
+}
+else
+{
+    <EditForm Model="@hasta" OnValidSubmit="GuncelleHasta">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label>Ad:</label>
+            <InputText @bind-Value="hasta.Ad" class="form-control" />
+        </div>
+
+        <div>
+            <label>Soyad:</label>
+            <InputText @bind-Value="hasta.Soyad" class="form-control" />
+        </div>
+
+        <div>
+            <label>TCKN:</label>
+            <InputText @bind-Value="hasta.TCKN" class="form-control" />
+        </div>
+
+        <div>
+            <label>Doğum Tarihi:</label>
+            <InputDate @bind-Value="hasta.DogumTarihi" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+    private Hasta hasta;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hasta = new Hasta
+        {
+            Id = id,
+            Ad = "Ali",
+            Soyad = "Kaya",
+            TCKN = "12345678901",
+            DogumTarihi = new DateTime(1990, 1, 1)
+        };
+    }
+
+    private void GuncelleHasta()
+    {
+        Console.WriteLine($"{hasta.Ad} {hasta.Soyad} güncellendi!");
+    }
+
+    public class Hasta
+    {
+        public int Id { get; set; }
+        public string Ad { get; set; }
+        public string Soyad { get; set; }
+        public string TCKN { get; set; }
+        public DateTime DogumTarihi { get; set; }
+    }
+}
